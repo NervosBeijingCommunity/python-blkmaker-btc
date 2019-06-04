@@ -57,10 +57,11 @@ except:
 	pass
 
 tmpl.add(req)
+
 while (tmpl.time_left() and tmpl.work_left()):
 	(data, dataid) = tmpl.get_data()
 	assert(len(data) >= 76)
-	
+
 	# mine the right nonce
 	for nonce in range(0x7fffffff):
 		data = data[:76] + struct.pack('!I', nonce)
@@ -71,7 +72,7 @@ while (tmpl.time_left() and tmpl.work_left()):
 			sys.stdout.write("0x%8x hashes done...\r" % nonce)
 			sys.stdout.flush()
 	print("Found nonce: 0x%8x \n" % nonce)
-	
+
 	req = tmpl.submit(data, dataid, nonce)
 	# send req to server
 	send_json(req)
